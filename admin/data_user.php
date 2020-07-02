@@ -45,6 +45,7 @@
               <th>No</th>
               <th>NIP</th>
               <th>Nama Pegawai</th>
+              <th>Jabatan</th>
               <th>Hak Akses</th>
               <th class="text-center">Action</th>
             </tr>
@@ -52,7 +53,7 @@
             <tbody>
               <?php
                 include '../database/koneksi.php';
-                $query = mysqli_query($koneksi,"SELECT * FROM user us, pegawai pg WHERE us.nip = pg.nip");
+                $query = mysqli_query($koneksi,"SELECT * FROM user us, pegawai pg, jabatan jb, golongan gl WHERE us.nip = pg.nip and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
                 $i = 1;
                 while ($row = mysqli_fetch_array($query)) {
                ?>
@@ -60,6 +61,7 @@
                  <td><?php echo $i ?></td>
                  <td><?php echo $row['nip'] ?></td>
                  <td><?php echo $row['nama_pegawai'] ?></td>
+                 <td><?php echo $row['nama_jabatan']; ?></td>
                  <td><?php echo $row['role'] ?></td>
                  <td class="text-center">
                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewuser<?php echo $row['nip'] ?>"><i class="fa fa-eye"></i> View</a>
@@ -129,10 +131,10 @@
                        <p class="text-muted"><?php echo $row['nip']; ?></p>
                        <hr>
                        <strong>Jabatan</strong>
-                       <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+                       <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
                        <hr>
                        <strong>Golongan</strong>
-                       <p class="text-muted"><?php echo $row['gol']; ?></p>
+                       <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
                        <hr>
                        <strong>Hak Akses Akun</strong>
                        <p class="text-muted"><?php echo $row['role']; ?></p>
@@ -221,15 +223,15 @@
       $selectnip = mysqli_query($koneksi, "SELECT * FROM user where nip=$nip");
       $data = mysqli_fetch_array($selectnip);
 
-      if ($data['nip'] == null) {
-        $query = mysqli_query($koneksi, "INSERT INTO user VALUES (null, '$nip','$password', '$hakakses')");
+      if (empty($data['nip'])) {
+        $query = mysqli_query($koneksi, "INSERT INTO user VALUES (null, '$nip','$password', '$hakakses', null)");
 
         if ($query) {
           echo "<script>alert('Data Berhasil Ditambahkan'); document.location='index.php?page=data_user';</script>";
         }else {
           echo "<script>alert('Data Gagal Ditambahkan'); document.location='index.php?page=data_user';</script>";
         }
-      } elseif ($data['nip'] != null) {
+      } elseif (!empty($data['nip'])) {
         echo "<script>alert('Akun sudah didaftarkan'); document.location='index.php?page=data_user';</script>";
       }
 

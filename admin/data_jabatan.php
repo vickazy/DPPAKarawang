@@ -73,9 +73,10 @@
                        </button>
                      </div>
                      <div class="modal-body">
-                       <form class="" action="edit_user.php" method="get">
+                       <form class="" action="edit_jabatan.php" method="get">
                          <div class="form-group">
                            <label>Nama Jabatan</label>
+                           <input type="hidden" name="id_jabatan" value="<?php echo $row['id_jabatan']; ?>">
                            <input type="text" name="nama_jabatan" class="form-control" value="<?php echo $row['nama_jabatan']; ?>">
                          </div>
                          <hr>

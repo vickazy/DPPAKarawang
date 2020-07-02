@@ -55,15 +55,15 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM kgb_pegawai kgb, pegawai pg WHERE kgb.id_pegawai = pg.id_pegawai and nip=$nip");
+              $query = mysqli_query($koneksi,"SELECT * FROM kgb_pegawai kgb, pegawai pg, jabatan jb, golongan gl WHERE kgb.id_pegawai = pg.id_pegawai and nip='$nip' and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
              <tr>
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
                <td><?php echo $row['kgb_terakhir'] ?></td>
                <td><?php echo $row['kgb_datang'] ?></td>
                <td><?php echo $row['keterangan']; ?></td>

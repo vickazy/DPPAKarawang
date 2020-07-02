@@ -51,8 +51,8 @@
               <th>KNP terakhir</th>
               <th>KNP yang akan datang</th>
               <th>Keterangan</th>
-              <th>Penetapan</th>
               <th>Pensiun</th>
+              <th>Penetapan</th>
               <th class="text-center">Action</th>
             </tr>
           </thead>
@@ -61,7 +61,7 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM knp_pegawai knp, pegawai pg WHERE knp.id_pegawai = pg.id_pegawai");
+              $query = mysqli_query($koneksi,"SELECT * FROM knp_pegawai knp, pegawai pg, jabatan jb, golongan gl WHERE knp.id_pegawai = pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
@@ -69,13 +69,13 @@
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip']; ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
                <td><?php echo $row['knp_terakhir'] ?></td>
                <td><?php echo $row['knp_datang'] ?></td>
                <td><?php echo $row['keterangan']; ?></td>
-               <td><?php echo $row['tgl']; ?></td>
                <td><?php echo $row['pensiun']; ?></td>
+               <td><?php echo $row['timestamp']; ?></td>
                <td class="text-center">
                  <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewknp<?php echo $row['id_knppegawai'] ?>"><i class="fa fa-eye"></i> View</a>
                  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modaleditknp<?php echo $row['id_knppegawai'] ?>"><i class="fa fa-edit"></i> Edit</a>
@@ -138,13 +138,15 @@
                          <label>Keterangan</label>
                          <select class="form-control" name="golongan">
                            <option selected disabled>-- Pilih Golongan--</option>
-                           <option value="III/a">III/a</option>
-                           <option value="III/b">III/b</option>
-                           <option value="III/c">III/c</option>
-                           <option value="III/d">III/d</option>
-                           <option value="IV/a">IV/a</option>
-                           <option value="IV/c">IV/c</option>
-                           <option value="IV/d">IV/d</option>
+                           <?php
+                           $jabatan = mysqli_query($koneksi, "SELECT * FROM golongan");
+
+                           while ($rowjab = mysqli_fetch_array($jabatan)) {
+                             ?>
+                             <option value="<?php echo $rowjab['nama_golongan']; ?>"><?php echo $rowjab['nama_golongan']; ?></option>
+                             <?php
+                           }
+                            ?>
                          </select>
                        </div>
                        <div class="form-group">
@@ -177,10 +179,10 @@
                      <p class="text-muted"><?php echo $row['nip']; ?></p>
                      <hr>
                      <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
                      <hr>
                      <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
                      <hr>
                      <strong>KNP terakhir</strong>
                      <p class="text-muted"><?php echo $row['knp_terakhir']; ?></p>
@@ -195,7 +197,7 @@
                      <p class="text-muted"><?php echo $row['pensiun']; ?></p>
                      <hr>
                      <strong>Diubah pada</strong>
-                     <p class="text-muted"><?php echo $row['tgl']; ?></p>
+                     <p class="text-muted"><?php echo $row['timestamp']; ?></p>
                      <hr>
                    </div>
                  </div>
@@ -256,13 +258,15 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <select class="form-control" name="golongan">
                         <option selected disabled>-- Pilih Golongan--</option>
-                        <option value="III/a">III/a</option>
-                        <option value="III/b">III/b</option>
-                        <option value="III/c">III/c</option>
-                        <option value="III/d">III/d</option>
-                        <option value="IV/a">IV/a</option>
-                        <option value="IV/c">IV/c</option>
-                        <option value="IV/d">IV/d</option>
+                        <?php
+                        $jabatan = mysqli_query($koneksi, "SELECT * FROM golongan");
+
+                        while ($rowjab = mysqli_fetch_array($jabatan)) {
+                          ?>
+                          <option value="<?php echo $rowjab['nama_golongan']; ?>"><?php echo $rowjab['nama_golongan']; ?></option>
+                          <?php
+                        }
+                         ?>
                       </select>
                     </div>
                   </div>
@@ -303,7 +307,7 @@
       $tgl = date('d-M-Y / H:i:s a');
 
 
-      $query = mysqli_query($koneksi, "INSERT INTO knp_pegawai VALUES (null, '$id','$knpterakhir', '$knpdatang', '$ket', '$tgl', '$pensiun')");
+      $query = mysqli_query($koneksi, "INSERT INTO knp_pegawai VALUES (null, '$id','$knpterakhir', '$knpdatang', '$ket', '$pensiun' , '$tgl')");
 
       if ($query) {
         echo "<script>alert('Data Berhasil Ditambahkan'); document.location='index.php?page=daftar_knp';</script>";

@@ -8,7 +8,7 @@ include "../database/koneksi.php";
   $ket = $_GET['keterangan'];
   $tgl = date('d-M-Y / H:i:s a');
 
-  $query = "UPDATE kgb_pegawai SET kgb_terakhir='$kgbterakhir', kgb_datang='$kgbdatang', keterangan='$ket', tgl='$tgl' WHERE id_kgbpegawai='$id'";
+  $query = "UPDATE kgb_pegawai SET kgb_terakhir='$kgbterakhir', kgb_datang='$kgbdatang', keterangan='$ket', timestamp='$tgl' WHERE id_kgbpegawai='$id'";
   $hasil = mysqli_query($koneksi, $query);
   if ($hasil) {
     echo "<script>alert('Berhasil Edit'); document.location='index.php?page=daftar_kgb';</script>";

@@ -35,7 +35,7 @@
         // Query untuk menampilkan profile pegawai
         // Select berdasarkan session nip yang tersimpan
         include '../database/koneksi.php';
-        $query = mysqli_query($koneksi,"SELECT * FROM pegawai WHERE nip='$nip'");
+        $query = mysqli_query($koneksi,"SELECT * FROM pegawai pg, jabatan jb, golongan gl WHERE nip='$nip' and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
         $row = mysqli_fetch_array($query);
 
         $selectfoto = mysqli_query($koneksi, "SELECT * FROM user WHERE nip='$nip'");
@@ -65,10 +65,10 @@
           <p class="text-muted"><?php echo $row['nip']; ?></p>
           <hr>
           <strong>Jabatan</strong>
-          <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+          <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
           <hr>
           <strong>Golongan</strong>
-          <p class="text-muted"><?php echo $row['gol']; ?></p>
+          <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
           <hr>
           <hr>
         </div>
@@ -126,14 +126,14 @@
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <input type="hidden" name="nippegawai" value="<?php echo $row['nip']; ?>">
-                <input class="form-control col-md-7 col-xs-12" type="text" name="pass" placeholder="Masukkan password">
+                <input class="form-control col-md-7 col-xs-12" type="password" name="pass" placeholder="Masukkan password">
               </div>
             </div>
 
             <div class="form-group">
               <label class="control-label col-md-3 col-sm-3 col-xs-12">Masukkan Ulang Password</label>
               <div class="col-md-6 col-sm-6 col-xs-12">
-                <input class="form-control col-md-7 col-xs-12" type="text" name="ulangpass" placeholder="Masukkan ulang password">
+                <input class="form-control col-md-7 col-xs-12" type="password" name="ulangpass" placeholder="Masukkan ulang password">
               </div>
             </div>
 

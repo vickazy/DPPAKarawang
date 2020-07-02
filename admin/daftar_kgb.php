@@ -60,7 +60,7 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM kgb_pegawai kgb, pegawai pg WHERE kgb.id_pegawai = pg.id_pegawai");
+              $query = mysqli_query($koneksi,"SELECT * FROM kgb_pegawai kgb, pegawai pg, jabatan jb, golongan gl WHERE kgb.id_pegawai = pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
@@ -68,12 +68,12 @@
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip']; ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
                <td><?php echo $row['kgb_terakhir'] ?></td>
                <td><?php echo $row['kgb_datang'] ?></td>
                <td><?php echo $row['keterangan']; ?></td>
-               <td><?php echo $row['tgl']; ?></td>
+               <td><?php echo $row['timestamp']; ?></td>
                <td class="text-center">
                  <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewkgb<?php echo $row['id_kgbpegawai'] ?>"><i class="fa fa-eye"></i> View</a>
                  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modaleditkgb<?php echo $row['id_kgbpegawai'] ?>"><i class="fa fa-edit"></i> Edit</a>
@@ -163,10 +163,10 @@
                      <p class="text-muted"><?php echo $row['nip']; ?></p>
                      <hr>
                      <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
                      <hr>
                      <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
                      <hr>
                      <strong>KGB terakhir</strong>
                      <p class="text-muted"><?php echo $row['kgb_terakhir']; ?></p>
@@ -178,7 +178,7 @@
                      <p class="text-muted"><?php echo $row['keterangan']; ?></p>
                      <hr>
                      <strong>Diubah pada</strong>
-                     <p class="text-muted"><?php echo $row['tgl']; ?></p>
+                     <p class="text-muted"><?php echo $row['timestamp']; ?></p>
                      <hr>
                    </div>
                  </div>

@@ -48,7 +48,8 @@
               <th>NIP</th>
               <th>Jabatan</th>
               <th>Golongan</th>
-              <th class="text-center">Action</th>
+              <th>Unit Kerja</th>
+              <th class="text-center" style="width:25%">Action</th>
             </tr>
           </thead>
 
@@ -57,7 +58,7 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM pegawai");
+              $query = mysqli_query($koneksi,"SELECT * FROM pegawai pg, jabatan jb, golongan gl WHERE pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan order by pg.id_jabatan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
@@ -65,8 +66,9 @@
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip'] ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
+               <td><?php echo $row['unit_kerja']; ?></td>
                <td class="text-center">
                  <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewpegawai<?php echo $row['nip'] ?>"><i class="fa fa-eye"></i> View</a>
                  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#modaleditpegawai<?php echo $row['nip'] ?>"><i class="fa fa-edit"></i> Edit</a>
@@ -120,34 +122,29 @@
                          <label>Jabatan</label>
                          <select class="form-control" name="jabatan">
                            <option selected disabled>-- Pilih Jabatan--</option>
-                           <option value="KETUA">KETUA</option>
-                           <option value="HAKIM UTAMA MUDA">HAKIM UTAMA MUDA</option>
-                           <option value="HAKIM MADYA UTAMA">HAKIM MADYA UTAMA</option>
-                           <option value="PANITERA">PANITERA</option>
-                           <option value="SEKRETARIS">SEKRETARIS</option>
-                           <option value="PANMUD HUKUM">PANMUD HUKUM</option>
-                           <option value="PANMUD GUGATAN">PANMUD GUGATAN</option>
-                           <option value="PANMUD PERMOHONAN">PANMUD PERMOHONAN</option>
-                           <option value="PANITERA PENGGANTI">PANITERA PENGGANTI</option>
-                           <option value="KASUB KEPEGAWAIAN DAN ORTALA">KASUB KEPEGAWAIAN DAN ORTALA</option>
-                           <option value="KASUB PERNCANAAN, IT DAN PELAPORAN">KASUB PERNCANAAN, IT DAN PELAPORAN</option>
-                           <option value="KASUBAG UMUM DAN KEUANGAN">KASUBAG UMUM DAN KEUANGAN</option>
-                           <option value="JURU SITA">JURU SITA</option>
-                           <option value="JURU SITA PENGGANTI">JURU SITA PENGGANTI</option>
-                           <option value="PELAKSANA">PELAKSANA</option>
+                           <?php
+                           $jabatan = mysqli_query($koneksi, "SELECT * FROM jabatan");
+                           while ($rowjab = mysqli_fetch_array($jabatan)) {
+                             ?>
+                             <option value="<?php echo $rowjab['id_jabatan']; ?>"><?php echo $rowjab['nama_jabatan']; ?></option>
+                             <?php
+                           }
+                            ?>
                          </select>
                        </div>
                        <div class="form-group">
                           <label>Golongan</label>
                          <select class="form-control" name="golongan">
                            <option selected disabled>-- Pilih Golongan--</option>
-                           <option value="III/a">III/a</option>
-                           <option value="III/b">III/b</option>
-                           <option value="III/c">III/c</option>
-                           <option value="III/d">III/d</option>
-                           <option value="IV/a">IV/a</option>
-                           <option value="IV/c">IV/c</option>
-                           <option value="IV/d">IV/d</option>
+                           <?php
+                           $jabatan = mysqli_query($koneksi, "SELECT * FROM golongan");
+
+                           while ($rowjab = mysqli_fetch_array($jabatan)) {
+                             ?>
+                             <option value="<?php echo $rowjab['id_golongan']; ?>"><?php echo $rowjab['nama_golongan']; ?></option>
+                             <?php
+                           }
+                            ?>
                          </select>
                        </div>
                        <div class="form-group">
@@ -176,10 +173,10 @@
                      <p class="text-muted"><?php echo $row['nip']; ?></p>
                      <hr>
                      <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
                      <hr>
                      <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
                      <hr>
                    </div>
                  </div>
@@ -223,21 +220,15 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <select class="form-control" name="jabatan">
                         <option selected disabled>-- Pilih Jabatan--</option>
-                        <option value="KETUA">KETUA</option>
-                        <option value="HAKIM UTAMA MUDA">HAKIM UTAMA MUDA</option>
-                        <option value="HAKIM MADYA UTAMA">HAKIM MADYA UTAMA</option>
-                        <option value="PANITERA">PANITERA</option>
-                        <option value="SEKRETARIS">SEKRETARIS</option>
-                        <option value="PANMUD HUKUM">PANMUD HUKUM</option>
-                        <option value="PANMUD GUGATAN">PANMUD GUGATAN</option>
-                        <option value="PANMUD PERMOHONAN">PANMUD PERMOHONAN</option>
-                        <option value="PANITERA PENGGANTI">PANITERA PENGGANTI</option>
-                        <option value="KASUB KEPEGAWAIAN DAN ORTALA">KASUB KEPEGAWAIAN DAN ORTALA</option>
-                        <option value="KASUB PERNCANAAN, IT DAN PELAPORAN">KASUB PERNCANAAN, IT DAN PELAPORAN</option>
-                        <option value="KASUBAG UMUM DAN KEUANGAN">KASUBAG UMUM DAN KEUANGAN</option>
-                        <option value="JURU SITA">JURU SITA</option>
-                        <option value="JURU SITA PENGGANTI">JURU SITA PENGGANTI</option>
-                        <option value="PELAKSANA">PELAKSANA</option>
+                        <?php
+                        $jabatan = mysqli_query($koneksi, "SELECT * FROM jabatan");
+
+                        while ($rowjab = mysqli_fetch_array($jabatan)) {
+                          ?>
+                          <option value="<?php echo $rowjab['id_jabatan']; ?>"><?php echo $rowjab['nama_jabatan']; ?></option>
+                          <?php
+                        }
+                         ?>
                       </select>
                     </div>
                   </div>
@@ -247,13 +238,15 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <select class="form-control" name="golongan">
                         <option selected disabled>-- Pilih Golongan--</option>
-                        <option value="III/a">III/a</option>
-                        <option value="III/b">III/b</option>
-                        <option value="III/c">III/c</option>
-                        <option value="III/d">III/d</option>
-                        <option value="IV/a">IV/a</option>
-                        <option value="IV/c">IV/c</option>
-                        <option value="IV/d">IV/d</option>
+                        <?php
+                        $jabatan = mysqli_query($koneksi, "SELECT * FROM golongan");
+
+                        while ($rowjab = mysqli_fetch_array($jabatan)) {
+                          ?>
+                          <option value="<?php echo $rowjab['id_golongan']; ?>"><?php echo $rowjab['nama_golongan']; ?></option>
+                          <?php
+                        }
+                         ?>
                       </select>
                     </div>
                   </div>
@@ -286,7 +279,7 @@ if (isset($_POST['submit'])) {
     $jabatanpegawai = $_POST['jabatan'];
     $golpegawai = $_POST['golongan'];
 
-    $query = mysqli_query($koneksi, "INSERT INTO pegawai VALUES (null, '$namapegawai','$nippegawai', '$jabatanpegawai', '$golpegawai')");
+    $query = mysqli_query($koneksi, "INSERT INTO pegawai VALUES (null, '$namapegawai','$nippegawai', '$jabatanpegawai', '$golpegawai', 'PENGADILAN AGAMA KARAWANG')");
 
     if ($query) {
       echo "<script>alert('Data Berhasil Ditambahkan'); document.location='index.php?page=data_pegawai';</script>";

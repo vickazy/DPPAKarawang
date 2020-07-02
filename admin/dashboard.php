@@ -111,7 +111,7 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <table id="datatable" class="table table-striped table-bordered">
+        <table id="datatable" class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
               <th>No</th>
@@ -130,7 +130,7 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM pegawai");
+              $query = mysqli_query($koneksi,"SELECT * FROM pegawai pg, jabatan jb, golongan gl WHERE pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan order by pg.id_jabatan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
@@ -138,98 +138,12 @@
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip'] ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
                <td><a href="index.php?page=viewcutipegawai&nip=<?php echo $row['nip'] ?>" class="label label-success">Lihat Detail</a> </td>
                <td><a href="index.php?page=viewknppegawai&nip=<?php echo $row['nip'] ?>"  class="label label-success">Lihat Detail</a> </td>
                <td><a href="index.php?page=viewkgbpegawai&nip=<?php echo $row['nip'] ?>"  class="label label-success">Lihat Detail</a> </td>
              </tr>
-
-             <div class="modal fade" id="modaleditpegawai<?php echo $row['nip']; ?>">
-               <div class="modal-dialog">
-                 <div class="modal-content">
-                   <div class="modal-header">
-                     <h4 class="modal-title">Form Edit Pegawai</h4>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                     </button>
-                   </div>
-                   <div class="modal-body">
-                     <form class="" action="edit_pegawai.php" method="get">
-                       <div class="form-group">
-                         <label>Nama Pegawai</label>
-                         <input type="hidden" name="nip" value="<?php echo $row['nip']; ?>">
-                         <input type="text" class="form-control" name="pegawai" value="<?php echo $row['nama_pegawai']; ?>">
-                       </div>
-                       <div class="form-group">
-                         <label>Jabatan</label>
-                         <select class="form-control" name="jabatan">
-                           <option selected disabled>-- Pilih Jabatan--</option>
-                           <option value="KETUA">KETUA</option>
-                           <option value="HAKIM UTAMA MUD">HAKIM UTAMA MUDA</option>
-                           <option value="HAKIM MADYA UTAMA">HAKIM MADYA UTAMA</option>
-                           <option value="PANITERA">PANITERA</option>
-                           <option value="SEKRETARIS">SEKRETARIS</option>
-                           <option value="PANMUD HUKUM">PANMUD HUKUM</option>
-                           <option value="PANMUD GUGATAN">PANMUD GUGATAN</option>
-                           <option value="PANMUD PERMOHONAN">PANMUD PERMOHONAN</option>
-                           <option value="PANITERA PENGGANTI">PANITERA PENGGANTI</option>
-                           <option value="KASUB KEPEGAWAIAN DAN ORTALA">KASUB KEPEGAWAIAN DAN ORTALA</option>
-                           <option value="KASUB PERNCANAAN, IT DAN PELAPORAN">KASUB PERNCANAAN, IT DAN PELAPORAN</option>
-                           <option value="KASUBAG UMUM DAN KEUANGAN">KASUBAG UMUM DAN KEUANGAN</option>
-                           <option value="JURU SITA">JURU SITA</option>
-                           <option value="JURU SITA PENGGANTI">JURU SITA PENGGANTI</option>
-                           <option value="PELAKSANA">PELAKSANA</option>
-                         </select>
-                       </div>
-                       <div class="form-group">
-                          <label>Golongan</label>
-                         <select class="form-control" name="golongan">
-                           <option selected disabled>-- Pilih Golongan--</option>
-                           <option value="III/a">III/a</option>
-                           <option value="III/b">III/b</option>
-                           <option value="III/c">III/c</option>
-                           <option value="III/d">III/d</option>
-                           <option value="IV/a">IV/a</option>
-                           <option value="IV/c">IV/c</option>
-                           <option value="IV/d">IV/d</option>
-                         </select>
-                       </div>
-                       <div class="form-group">
-                         <button type="submit" class="btn btn-primary">Save changes</button>
-                       </div>
-                     </form>
-                   </div>
-                 </div>
-               </div>
-             </div>
-
-             <div class="modal fade" id="modalviewpegawai<?php echo $row['nip']; ?>">
-               <div class="modal-dialog">
-                 <div class="modal-content">
-                   <div class="modal-header">
-                     <h4 class="modal-title">View Pegawai <?php echo $row['nama_pegawai']; ?></h4>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                     </button>
-                   </div>
-                   <div class="modal-body">
-                     <strong>Nama Lengkap</strong>
-                     <p class="text-muted"><?php echo $row['nama_pegawai']; ?></p>
-                     <hr>
-                     <strong>NIP</strong>
-                     <p class="text-muted"><?php echo $row['nip']; ?></p>
-                     <hr>
-                     <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
-                     <hr>
-                     <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
-                     <hr>
-                   </div>
-                 </div>
-               </div>
-             </div>
 
              <?php
              $i++;
@@ -237,85 +151,6 @@
               ?>
           </tbody>
         </table>
-        <div class="modal fade btn-tambah-pegawai" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Form Tambah Pegawai </h4>
-              </div>
-              <div class="modal-body">
-                <form data-parsley-validate class="form-horizontal form-label-left" method="POST">
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Nama Lengkap</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input class="form-control col-md-7 col-xs-12" type="text" name="nama_lengkap" placeholder="Masukkan Nama">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">NIP</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <input class="form-control col-md-7 col-xs-12" type="text" name="nip" placeholder="Masukkan NIP">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Jabatan</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <select class="form-control" name="jabatan">
-                        <option selected disabled>-- Pilih Jabatan--</option>
-                        <option value="KETUA">KETUA</option>
-                        <option value="HAKIM UTAMA MUD">HAKIM UTAMA MUDA</option>
-                        <option value="HAKIM MADYA UTAMA">HAKIM MADYA UTAMA</option>
-                        <option value="PANITERA">PANITERA</option>
-                        <option value="SEKRETARIS">SEKRETARIS</option>
-                        <option value="PANMUD HUKUM">PANMUD HUKUM</option>
-                        <option value="PANMUD GUGATAN">PANMUD GUGATAN</option>
-                        <option value="PANMUD PERMOHONAN">PANMUD PERMOHONAN</option>
-                        <option value="PANITERA PENGGANTI">PANITERA PENGGANTI</option>
-                        <option value="KASUB KEPEGAWAIAN DAN ORTALA">KASUB KEPEGAWAIAN DAN ORTALA</option>
-                        <option value="KASUB PERNCANAAN, IT DAN PELAPORAN">KASUB PERNCANAAN, IT DAN PELAPORAN</option>
-                        <option value="KASUBAG UMUM DAN KEUANGAN">KASUBAG UMUM DAN KEUANGAN</option>
-                        <option value="JURU SITA">JURU SITA</option>
-                        <option value="JURU SITA PENGGANTI">JURU SITA PENGGANTI</option>
-                        <option value="PELAKSANA">PELAKSANA</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Golongan</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                      <select class="form-control" name="golongan">
-                        <option selected disabled>-- Pilih Golongan--</option>
-                        <option value="III/a">III/a</option>
-                        <option value="III/b">III/b</option>
-                        <option value="III/c">III/c</option>
-                        <option value="III/d">III/d</option>
-                        <option value="IV/a">IV/a</option>
-                        <option value="IV/c">IV/c</option>
-                        <option value="IV/d">IV/d</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div class="ln_solid"></div>
-                  <div class="form-group">
-                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                      <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                    </div>
-                  </div>
-
-                </form>
-              </div>
-
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

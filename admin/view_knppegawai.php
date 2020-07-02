@@ -52,13 +52,13 @@
               $nip = $_GET['nip'];
               $i = 1;
 
-              $selectpegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE nip='$nip'");
+              $selectpegawai = mysqli_query($koneksi, "SELECT * FROM pegawai pg WHERE nip='$nip'");
 
               $hasilselect = mysqli_fetch_array($selectpegawai);
 
               $idpegawai = $hasilselect['id_pegawai'];
 
-              $query = mysqli_query($koneksi, "SELECT * FROM knp_pegawai knp, pegawai pg where knp.id_pegawai = pg.id_pegawai and knp.id_pegawai='$idpegawai'");
+              $query = mysqli_query($koneksi, "SELECT * FROM knp_pegawai knp, pegawai pg, jabatan jb, golongan gl where knp.id_pegawai = pg.id_pegawai and knp.id_pegawai='$idpegawai' and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
 
               while ($row = mysqli_fetch_array($query) ) {
 
@@ -68,8 +68,8 @@
                   <td><?php echo $i; ?></td>
                   <td><?php echo $row['nama_pegawai']; ?></td>
                   <td><?php echo $row['nip']; ?></td>
-                  <td><?php echo $row['jabatan']; ?></td>
-                  <td><?php echo $row['gol']; ?></td>
+                  <td><?php echo $row['nama_jabatan']; ?></td>
+                  <td><?php echo $row['nama_golongan']; ?></td>
                   <td><?php echo $row['knp_terakhir']; ?></td>
                   <td><?php echo $row['knp_datang']; ?></td>
                   <td><?php echo $row['keterangan']; ?></td>
