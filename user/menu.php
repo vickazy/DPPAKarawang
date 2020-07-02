@@ -10,7 +10,7 @@
   $selectjabatan = mysqli_query($koneksi, "SELECT * FROM pegawai pg, jabatan jb WHERE nip='$nip' and pg.id_jabatan=jb.id_jabatan");
   $rowselect = mysqli_fetch_array($selectjabatan);
   $jabatanpegawai = $rowselect['nama_jabatan'];
-  if ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS' || $jabatanpegawai =='KETUA' || $jabatanpegawai =='PANMUD HUKUM' || $jabatanpegawai =='PANMUD HUKUM GUGATAN' || $jabatanpegawai =='PANMUD HUKUM PERMOHONAN' || $jabatanpegawai =='KASUBAG KEPEGAWAIAN DAN ORTALA' || $jabatanpegawai =='KASUBAG PERNCANAAN, IT DAN PELAPORAN' || $jabatanpegawai =='KASUBAG UMUM DAN KEUANGAN' ) {
+  if ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS' || $jabatanpegawai =='KETUA' || $jabatanpegawai =='PANMUD HUKUM' || $jabatanpegawai =='PANMUD HUKUM GUGATAN' || $jabatanpegawai =='PANMUD HUKUM PERMOHONAN' || $jabatanpegawai =='KASUBAG KEPEGAWAIAN DAN ORTALA' || $jabatanpegawai =='KASUBAG PERNCANAAN, IT DAN PELAPORAN' || $jabatanpegawai =='KASUBAG UMUM DAN KEUANGAN') {
     ?>
     <div class="menu_section">
     <h3>Menu Khusus</h3>

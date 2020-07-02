@@ -54,6 +54,7 @@
                 <th>Sampai Dengan</th>
                 <th>Status</th>
                 <th>Keterangan</th>
+                <th>Action</th>
               </tr>
             </tr>
           </thead>
@@ -62,16 +63,15 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $nippegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE nip='$nip'");
-              $rowselect = mysqli_fetch_array($nippegawai);
-              $idpegawai = $rowselect['id_pegawai'];
-              $jabatan = $rowselect['jabatan'];
-              if ($jabatan == 'PANITERA') {
-                $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai and panitera='$nip' and approval_panitera='0'");
-              } elseif ($jabatan == 'SEKRETARIS') {
-                  $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai and sekretaris='$nip' and approval_sekretaris='0'");
-              } elseif ($jabatan == 'KETUA') {
-                  $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai and ketua='$nip' and approval_ketua='0'");
+              $selectjabatan = mysqli_query($koneksi, "SELECT * FROM pegawai pg, jabatan jb WHERE nip='$nip' and pg.id_jabatan=jb.id_jabatan");
+              $rowselect = mysqli_fetch_array($selectjabatan);
+              $jabatanpegawai = $rowselect['nama_jabatan'];
+              if ($jabatanpegawai =='PANMUD HUKUM' || $jabatanpegawai =='PANMUD HUKUM GUGATAN' || $jabatanpegawai =='PANMUD HUKUM PERMOHONAN' || $jabatanpegawai =='KASUBAG KEPEGAWAIAN DAN ORTALA' || $jabatanpegawai =='KASUBAG PERNCANAAN, IT DAN PELAPORAN' || $jabatanpegawai =='KASUBAG UMUM DAN KEUANGAN') {
+                $query = mysqli_query($koneksi, "SELECT *  FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE panmud_kasubag='$nip' and app_panmud_kasubag=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
+              } elseif ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS') {
+                $query = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE panitera_sekretaris='$nip' and app_panitera_sekretaris=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
+              } elseif ($jabatanpegawai == 'KETUA') {
+                $querycuti = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE ketua='$nip' and app_ketua=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               }
 
               $i = 1;
@@ -81,8 +81,8 @@
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip']; ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
+               <td><?php echo $row['nama_jabatan'] ?></td>
+               <td><?php echo $row['nama_golongan'] ?></td>
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>
@@ -94,9 +94,13 @@
                <td class="text-center">
                  <a href="#" class="btn btn-primary btn-xs "> <?php echo $row['ket_status_cuti']; ?></a>
                </td>
+               <td>
+                 <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewcuti<?php echo $row['id_cutipegawai'] ?>"><i class="fa fa-eye"></i> View</a>
+                 <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modaleditcuti<?php echo $row['id_cutipegawai'] ?>"><i class="fa fa-check"></i> Approv</a>
+               </td>
              </tr>
 
-             <div class="modal fade" id="modalviewcuti<?php echo $row['id_cutipegawai']; ?>">
+             <div class="modal fade" id="modalviewcutia<?php echo $row['id_cutipegawai']; ?>">
                <div class="modal-dialog">
                  <div class="modal-content">
                    <div class="modal-header">

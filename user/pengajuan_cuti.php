@@ -183,17 +183,17 @@
             } elseif ($atasan == 'kasubagortala') {
 
               $kasubag = '198212132006042002';
-              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Kepegawaian dan Ortala',)");
+              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Kepegawaian dan Ortala')");
 
             } elseif ($atasan == 'kasubagit') {
 
               $kasubag = '197006181990032001';
-              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Perencanaan, IT dan Pelaporan',)");
+              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Perencanaan, IT dan Pelaporan')");
 
             }  elseif ($atasan == 'kasubagkeuangan') {
 
               $kasubag = '198304212011012013';
-              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Umum dan Keuangan',)");
+              $query = mysqli_query($koneksi, "INSERT INTO cuti_pegawai VALUES (null, '$id', '$jenis', '$alasan', '$lama', '$ketlama', '$dari', '$sampai' ,$kasubag, null, null, 0, 0, 0, 'Diajukan', 'Menunggu Approval Kasubag Umum dan Keuangan')");
 
             }
 

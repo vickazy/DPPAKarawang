@@ -68,7 +68,7 @@
              ?>
              <tr>
                <td><?php echo $i ?></td>
-               <td><?php echo $row['nama_pegawai'] ?></td>
+               <td><?php echo $row['nama_pegawai'] ?></td>  
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>

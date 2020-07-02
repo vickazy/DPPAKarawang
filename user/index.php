@@ -112,6 +112,111 @@
                     <li><a href="../index.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
+
+                <?php
+
+
+                include '../database/koneksi.php';
+
+                $selectjabatan = mysqli_query($koneksi, "SELECT * FROM pegawai pg, jabatan jb WHERE nip='$nip' and pg.id_jabatan=jb.id_jabatan");
+                $rowselect = mysqli_fetch_array($selectjabatan);
+                $jabatanpegawai = $rowselect['nama_jabatan'];
+
+                if ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS' || $jabatanpegawai =='KETUA' || $jabatanpegawai =='PANMUD HUKUM' || $jabatanpegawai =='PANMUD HUKUM GUGATAN' || $jabatanpegawai =='PANMUD HUKUM PERMOHONAN' || $jabatanpegawai =='KASUBAG KEPEGAWAIAN DAN ORTALA' || $jabatanpegawai =='KASUBAG PERNCANAAN, IT DAN PELAPORAN' || $jabatanpegawai =='KASUBAG UMUM DAN KEUANGAN') {
+                  ?>
+
+                  <li role="presentation" class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                      <i class="fa fa-envelope-o"></i>
+                      <?php
+
+                      if ($jabatanpegawai =='PANMUD HUKUM' || $jabatanpegawai =='PANMUD HUKUM GUGATAN' || $jabatanpegawai =='PANMUD HUKUM PERMOHONAN' || $jabatanpegawai =='KASUBAG KEPEGAWAIAN DAN ORTALA' || $jabatanpegawai =='KASUBAG PERNCANAAN, IT DAN PELAPORAN' || $jabatanpegawai =='KASUBAG UMUM DAN KEUANGAN') {
+                        $querycuti = mysqli_query($koneksi, "SELECT COUNT(*) AS total  FROM cuti_pegawai ct, pegawai pg WHERE panmud_kasubag='$nip' and app_panmud_kasubag=0 and ct.id_pegawai=pg.id_pegawai");
+                        $querycuti2 = mysqli_query($koneksi, "SELECT *  FROM cuti_pegawai ct, pegawai pg, user us WHERE panmud_kasubag='$nip' and app_panmud_kasubag=0 and ct.id_pegawai=pg.id_pegawai and pg.nip=us.nip");
+                        $count = mysqli_fetch_array($querycuti);
+                        ?>
+                          <span class="badge bg-green"><?php echo $count['total']; ?></span>
+                        <?php
+
+                      } elseif ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS') {
+                        $querycuti = mysqli_query($koneksi, "SELECT COUNT(*) AS total  FROM cuti_pegawai ct, pegawai pg WHERE panitera_sekretaris='$nip' and app_panitera_sekretaris=0 and ct.id_pegawai=pg.id_pegawai");
+                        $querycuti2 = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, user us WHERE panitera_sekretaris='$nip' and app_panitera_sekretaris=0 and ct.id_pegawai=pg.id_pegawai and pg.nip=us.nip");
+                        $count = mysqli_fetch_array($querycuti);
+                        ?>
+                          <span class="badge bg-green"><?php echo $count['total']; ?></span>
+                        <?php
+                      } elseif ($jabatanpegawai =='KETUA') {
+                        $querycuti = mysqli_query($koneksi, "SELECT COUNT(*) AS total  FROM cuti_pegawai ct, pegawai pg WHERE ketua='$nip' and app_ketua=0 and ct.id_pegawai=pg.id_pegawai");
+                        $querycuti2 = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, user us WHERE ketua='$nip' and app_ketua=0 and ct.id_pegawai=pg.id_pegawai and pg.nip=us.nip");
+                        $count = mysqli_fetch_array($querycuti);
+                        ?>
+                          <span class="badge bg-green"><?php echo $count['total']; ?></span>
+                        <?php
+                      } else {
+                        ?>
+                        <span class="badge bg-green">0</span>
+                        <?php
+                      }
+
+                       ?>
+
+                    </a>
+
+                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                      <?php
+
+
+
+                      while ($row = mysqli_fetch_array($querycuti2)) {
+                        // code...
+
+                       ?>
+                      <li>
+                        <a>
+                          <?php
+                        if (empty($row['foto'])) {
+                        ?>
+                            <span class="image"><img src="../build/images/user.png"></span>
+                        <?php
+                      } elseif (!empty($row['foto'])) {
+                        ?>
+                            <span class="image"><img src="../build/images/thump_<?php echo $row2['foto']; ?>"></span>
+                        <?php
+                        }
+                         ?>
+                          <span>
+                            <span><?php echo $row['nama_pegawai']; ?></span>
+                          </span>
+                          <br>
+                          <span>
+                            <span><?php echo $row['nip']; ?></span>
+                          </span>
+                          <span class="message">
+                          <?php echo $row['ket_status_cuti']; ?>
+                          </span>
+
+                        </a>
+                      </li>
+
+                      <?php
+
+                      } ?>
+
+                      <li>
+                        <div class="text-center">
+                          <a href="index.php?page=approve_cuti" class="btn btn-success">
+                            <strong>Approv sekarang</strong>
+                          </a>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <?php
+                }
+
+                 ?>
+
               </ul>
             </nav>
           </div>
