@@ -62,13 +62,13 @@
               $nippegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE nip='$nip'");
               $rowselect = mysqli_fetch_array($nippegawai);
               $idpegawai = $rowselect['id_pegawai'];
-              $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai and nip='$nip'");
+              $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai and nip='$nip' and status_cuti='Diajukan'");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
              <tr>
                <td><?php echo $i ?></td>
-               <td><?php echo $row['nama_pegawai'] ?></td>  
+               <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>
@@ -82,65 +82,6 @@
                </td>
              </tr>
 
-             <div class="modal fade" id="modalviewcuti<?php echo $row['id_cutipegawai']; ?>">
-               <div class="modal-dialog">
-                 <div class="modal-content">
-                   <div class="modal-header">
-                     <h4 class="modal-title">View KNP Pegawai <?php echo $row['nama_pegawai']; ?></h4>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                     </button>
-                   </div>
-                   <div class="modal-body">
-                     <strong>Nama lengkap</strong>
-                     <p class="text-muted"><?php echo $row['nama_pegawai']; ?></p>
-                     <hr>
-                     <strong>NIP</strong>
-                     <p class="text-muted"><?php echo $row['nip']; ?></p>
-                     <hr>
-                     <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
-                     <hr>
-                     <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
-                     <hr>
-                     <strong>Cuti tahunan</strong>
-                     <p class="text-muted"><?php echo $row['cuti_tahunan']; ?></p>
-                     <hr>
-                     <strong>Cuti sakit</strong>
-                     <p class="text-muted"><?php echo $row['cuti_sakit']; ?></p>
-                     <hr>
-                     <strong>Cuti bersalin</strong>
-                     <p class="text-muted"><?php echo $row['cuti_bersalin']; ?></p>
-                     <hr>
-                     <strong>Cuti bersalin anak ke-3</strong>
-                     <p class="text-muted"><?php echo $row['cuti_bersalin_anakketiga']; ?></p>
-                     <hr>
-                     <strong>Cuti musibah</strong>
-                     <p class="text-muted"><?php echo $row['cuti_musibah']; ?></p>
-                     <hr>
-                     <strong>Keterangan cuti musibah</strong>
-                     <p class="text-muted"><?php echo $row['ket_cuti_musibah']; ?></p>
-                     <hr>
-                     <strong>Cuti selain musibah</strong>
-                     <p class="text-muted"><?php echo $row['cuti_selain_musibah']; ?></p>
-                     <hr>
-                     <strong>Keterangan cuti selain musibah</strong>
-                     <p class="text-muted"><?php echo $row['ket_cuti_selain_musibah']; ?></p>
-                     <hr>
-                     <strong>Cuti besar</strong>
-                     <p class="text-muted"><?php echo $row['cuti_besar']; ?></p>
-                     <hr>
-                     <strong>Cuti diluar tanggungan negara</strong>
-                     <p class="text-muted"><?php echo $row['cuti_diluar_tanggungan_negara']; ?></p>
-                     <hr>
-                     <strong>Penetapan</strong>
-                     <p class="text-muted"><?php echo $row['tgl']; ?></p>
-                     <hr>
-                   </div>
-                 </div>
-               </div>
-             </div>
 
              <?php
              $i++;

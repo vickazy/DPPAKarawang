@@ -46,10 +46,9 @@
                 <th>Nama</th>
                 <th>NIP</th>
                 <th>Jabatan</th>
-                <th>Golongan</th>
                 <th>Jenis Cuti</th>
                 <th>Alasan Cuti</th>
-                <th>Lama Cuti</th>
+                <th>Durasi Cuti</th>
                 <th>Dari Tanggal</th>
                 <th>Sampai Dengan</th>
                 <th>Status</th>
@@ -71,7 +70,7 @@
               } elseif ($jabatanpegawai == 'PANITERA' || $jabatanpegawai == 'SEKRETARIS') {
                 $query = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE panitera_sekretaris='$nip' and app_panitera_sekretaris=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               } elseif ($jabatanpegawai == 'KETUA') {
-                $querycuti = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE ketua='$nip' and app_ketua=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
+                $query = mysqli_query($koneksi, "SELECT * FROM cuti_pegawai ct, pegawai pg, jabatan jb, golongan gl WHERE ketua='$nip' and app_ketua=0 and ct.id_pegawai=pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               }
 
               $i = 1;
@@ -82,7 +81,6 @@
                <td><?php echo $row['nama_pegawai'] ?></td>
                <td><?php echo $row['nip']; ?></td>
                <td><?php echo $row['nama_jabatan'] ?></td>
-               <td><?php echo $row['nama_golongan'] ?></td>
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>
@@ -96,15 +94,15 @@
                </td>
                <td>
                  <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalviewcuti<?php echo $row['id_cutipegawai'] ?>"><i class="fa fa-eye"></i> View</a>
-                 <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modaleditcuti<?php echo $row['id_cutipegawai'] ?>"><i class="fa fa-check"></i> Approv</a>
+                 <a href="index.php?page=approval_cuti&nip=<?php echo $row['nip']; ?>" class="btn btn-danger"><i class="fa fa-check"></i> Approve</a>
                </td>
              </tr>
 
-             <div class="modal fade" id="modalviewcutia<?php echo $row['id_cutipegawai']; ?>">
+             <div class="modal fade" id="modalviewcuti<?php echo $row['id_cutipegawai']; ?>">
                <div class="modal-dialog">
                  <div class="modal-content">
                    <div class="modal-header">
-                     <h4 class="modal-title">View KNP Pegawai <?php echo $row['nama_pegawai']; ?></h4>
+                     <h4 class="modal-title">Detail Pengajuan Cuti Pegawai <?php echo $row['nama_pegawai']; ?></h4>
                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                      </button>
@@ -117,43 +115,28 @@
                      <p class="text-muted"><?php echo $row['nip']; ?></p>
                      <hr>
                      <strong>Jabatan</strong>
-                     <p class="text-muted"><?php echo $row['jabatan']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_jabatan']; ?></p>
                      <hr>
                      <strong>Golongan</strong>
-                     <p class="text-muted"><?php echo $row['gol']; ?></p>
+                     <p class="text-muted"><?php echo $row['nama_golongan']; ?></p>
                      <hr>
-                     <strong>Cuti tahunan</strong>
-                     <p class="text-muted"><?php echo $row['cuti_tahunan']; ?></p>
+                     <strong>Jenis pengajuan cuti</strong>
+                     <p class="text-muted"><?php echo $row['jenis_cuti']; ?></p>
                      <hr>
-                     <strong>Cuti sakit</strong>
-                     <p class="text-muted"><?php echo $row['cuti_sakit']; ?></p>
+                     <strong>Alasan cuti</strong>
+                     <p class="text-muted"><?php echo $row['alasan_cuti']; ?></p>
                      <hr>
-                     <strong>Cuti bersalin</strong>
-                     <p class="text-muted"><?php echo $row['cuti_bersalin']; ?></p>
+                     <strong>Durasi cuti selama</strong>
+                     <p class="text-muted"><?php echo $row['lama_cuti']; ?> <?php echo $row['ket_lama_cuti']; ?></p>
                      <hr>
-                     <strong>Cuti bersalin anak ke-3</strong>
-                     <p class="text-muted"><?php echo $row['cuti_bersalin_anakketiga']; ?></p>
+                     <strong>Tanggal mulai cuti</strong>
+                     <p class="text-muted"><?php echo $row['dari_tanggal']; ?></p>
                      <hr>
-                     <strong>Cuti musibah</strong>
-                     <p class="text-muted"><?php echo $row['cuti_musibah']; ?></p>
+                     <strong>Tanggal akhir cuti</strong>
+                     <p class="text-muted"><?php echo $row['sampai_dengan']; ?></p>
                      <hr>
-                     <strong>Keterangan cuti musibah</strong>
-                     <p class="text-muted"><?php echo $row['ket_cuti_musibah']; ?></p>
-                     <hr>
-                     <strong>Cuti selain musibah</strong>
-                     <p class="text-muted"><?php echo $row['cuti_selain_musibah']; ?></p>
-                     <hr>
-                     <strong>Keterangan cuti selain musibah</strong>
-                     <p class="text-muted"><?php echo $row['ket_cuti_selain_musibah']; ?></p>
-                     <hr>
-                     <strong>Cuti besar</strong>
-                     <p class="text-muted"><?php echo $row['cuti_besar']; ?></p>
-                     <hr>
-                     <strong>Cuti diluar tanggungan negara</strong>
-                     <p class="text-muted"><?php echo $row['cuti_diluar_tanggungan_negara']; ?></p>
-                     <hr>
-                     <strong>Penetapan</strong>
-                     <p class="text-muted"><?php echo $row['tgl']; ?></p>
+                     <strong>Status</strong>
+                     <p class="text-muted"><?php echo $row['status_cuti'];  ?> <?php echo $row['ket_status_cuti']; ?></p>
                      <hr>
                    </div>
                  </div>

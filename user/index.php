@@ -205,7 +205,7 @@
                       <li>
                         <div class="text-center">
                           <a href="index.php?page=approve_cuti" class="btn btn-success">
-                            <strong>Approv sekarang</strong>
+                            <strong>Approve sekarang</strong>
                           </a>
                         </div>
                       </li>
@@ -246,6 +246,7 @@
               case 'tidakdisetujui': include'cuti_tidakdisetujui.php'; break;
 
               case 'approve_cuti': include'approve_cuti.php'; break;
+              case 'approval_cuti': include'approve_update.php'; break;
 
               case '': include'dashboard.php';break;
             }
@@ -318,6 +319,21 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#aksi').change(function(){
+            if($(this).val() '2'){
+                $('#spv').attr('disabled', 'disabled');
+                $('#reject').attr('disabled', false);
+            }else{
+                $('#spv').attr('disabled', false);
+                $('#reject').attr('disabled', 'disabled');
+            }
+        });
+
+    });
+    </script>
 
   </body>
 </html>

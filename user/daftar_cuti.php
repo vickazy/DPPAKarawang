@@ -44,15 +44,13 @@
               <tr>
                 <th>No</th>
                 <th>Nama</th>
-                <th>NIP</th>
-                <th>Jabatan</th>
-                <th>Golongan</th>
                 <th>Jenis Cuti</th>
                 <th>Alasan Cuti</th>
                 <th>Lama Cuti</th>
                 <th>Dari Tanggal</th>
                 <th>Sampai Dengan</th>
                 <th>Status</th>
+                <th>Keterangan</th>
               </tr>
             </tr>
           </thead>
@@ -71,14 +69,14 @@
              <tr>
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
-               <td><?php echo $row['nip']; ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>
                <td><?php echo $row['dari_tanggal']; ?></td>
                <td><?php echo $row['sampai_dengan']; ?></td>
+               <td class="text-center">
+                <a href="#" class="btn btn-primary btn-xs "> <?php echo $row['status_cuti']; ?></a>
+               </td>
                <td class="text-center">
                  <a href="#" class="btn btn-primary btn-xs "> <?php echo $row['ket_status_cuti']; ?></a>
                </td>

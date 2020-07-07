@@ -45,9 +45,6 @@
             <tr>
               <th>No</th>
               <th>Nama</th>
-              <th>NIP</th>
-              <th>Jabatan</th>
-              <th>Golongan</th>
               <th>Jenis Cuti</th>
               <th>Alasan Cuti</th>
               <th>Lama Cuti</th>
@@ -62,16 +59,13 @@
           <tbody>
             <?php
               include '../database/koneksi.php';
-              $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg WHERE cuti.id_pegawai = pg.id_pegawai");
+              $query = mysqli_query($koneksi,"SELECT * FROM cuti_pegawai cuti, pegawai pg, jabatan jb, golongan gl WHERE cuti.id_pegawai = pg.id_pegawai and pg.id_jabatan=jb.id_jabatan and pg.id_golongan=gl.id_golongan");
               $i = 1;
               while ($row = mysqli_fetch_array($query)) {
              ?>
              <tr>
                <td><?php echo $i ?></td>
                <td><?php echo $row['nama_pegawai'] ?></td>
-               <td><?php echo $row['nip']; ?></td>
-               <td><?php echo $row['jabatan'] ?></td>
-               <td><?php echo $row['gol'] ?></td>
                <td><?php echo $row['jenis_cuti'] ?></td>
                <td><?php echo $row['alasan_cuti'] ?></td>
                <td><?php echo $row['lama_cuti'];?> <?php echo $row['ket_lama_cuti'];  ?></td>

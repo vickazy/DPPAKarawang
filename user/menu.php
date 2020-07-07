@@ -17,7 +17,7 @@
     <ul class="nav side-menu">
       <li><a href="#"><i class="fa fa-calendar"></i> Approval Cuti <span class="fa fa-chevron-down"></span></a>
         <ul class="nav child_menu">
-          <li><a href="index.php?page=approve_cuti">Approv Cuti</a></li>
+          <li><a href="index.php?page=approve_cuti">Approve Cuti</a></li>
         </ul>
       </li>
     </ul>
